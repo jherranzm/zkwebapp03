@@ -1,0 +1,43 @@
+<?page title="AAEE Gestión Escenarios" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Aplicación Gestión de Escenarios" border="normal"
+		apply="net.herranzmartin.uploader.TestComposer">
+		
+		<include src="menu.zul"/>
+		
+		<separator />
+		<button label="Subir Ficheros" id="btnUpload"
+			upload="true,maxsize=-1,multiple=true,native" />
+
+		<hbox id="resultado"></hbox>
+
+		<grid apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('net.herranzmartin.uploader.ListaFicheros')"
+			model="@bind(vm.ficheros)">
+			<columns>
+				<column label="Fichero" />
+				<column label="Fecha" />
+				<column label="CIF" />
+				<column label="Nombre Cliente Cabecera" />
+				<column label="Tipo Acuerdo" />
+			</columns>
+			<template name="model" var="fichero">
+				<row>
+					<label value="@bind(fichero.getNombreArchivoPc())" />
+					<label value="@bind(fichero.getFechaFactura())" />
+					<label value="@bind(fichero.getCifSupracliente())" />
+					<label
+						value="@bind(fichero.getNombreSupracliente())" />
+					<label
+						value="@bind(fichero.getTipoDeFacturacion())" />
+				</row>
+			</template>
+			<foot>
+				<footer 
+					span="5" 
+					id="footer_category"
+					class="footer_right" />
+			</foot>
+		</grid>
+	</window>
+</zk>

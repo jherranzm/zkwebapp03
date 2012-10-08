@@ -1,0 +1,47 @@
+<?page title="Gestión Consultas" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Gestión Consultas" border="normal">
+
+		<include src="menu.zul" />
+
+		<separator />
+
+		<hbox>Gestión de Consultas</hbox>
+
+		<div id="formAltaConsultaSQL" visible="false">
+			<hbox>
+				<label id="lblNombre">Nombre</label>
+				<textbox id="nombre" width="250px" tabindex="1" />
+			</hbox>
+
+			<hbox>
+				<label id="lblConsulta">ConsultaSQL</label>
+				<textbox id="consultasql" width="550px" tabindex="2" />
+			</hbox>
+			<hbox>
+				<button label="click" onClick="" />
+			</hbox>
+		</div>
+
+		<grid apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('net.herranzmartin.uploader.ListaConsultas')"
+			model="@bind(vm.consultas)">
+			<columns>
+				<column label="Nombre" />
+				<column label="Consulta" />
+			</columns>
+			<template name="model" var="consulta">
+				<row>
+					<label value="@bind(consulta.getNombre())" />
+					<label value="@bind(consulta.getDefinicion())" />
+				</row>
+			</template>
+			<foot>
+				<footer span="5" id="footer_category"
+					class="footer_right" />
+			</foot>
+		</grid>
+
+
+	</window>
+</zk>
