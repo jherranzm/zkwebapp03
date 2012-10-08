@@ -4,6 +4,7 @@
 				<menupopup>
 					<menuitem id="gestionFicheros" label="Gestión Ficheros 977R" href="index.zul"/>
 					<menuitem id="gestionConsultas" label="Gestión Consultas" href="gestionConsultas.zul"/>
+					<menuitem id="gestionPestanyes" label="Gestión Pestanyes" href="gestionPestanyes.zul"/>
 				</menupopup>
 			</menu>
 		</menubar>

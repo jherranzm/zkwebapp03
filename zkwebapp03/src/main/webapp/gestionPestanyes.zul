@@ -1,0 +1,53 @@
+<?page title="Gestión Pestañas" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Gestión Pestañas" border="normal">
+
+		<include src="menu.zul" />
+
+		<separator />
+
+		<hbox>Gestión de Pestañas</hbox>
+
+		<div id="formAltaPestanya" visible="false">
+			<hbox>
+				<label id="lblNombre">Nombre</label>
+				<textbox id="nombre" width="250px" tabindex="1" />
+			</hbox>
+
+			<hbox>
+				<label id="lblRango">Rango</label>
+				<textbox id="rango" width="550px" tabindex="2" />
+			</hbox>
+			<hbox>
+				<label id="lblNumFilaInicial">Num. Fila Inicial</label>
+				<textbox id="numFilaInicial" width="30px" tabindex="3" />
+			</hbox>
+			<hbox>
+				<button id="btnGuardar" label="btnGuardar" onClick="" />
+			</hbox>
+		</div>
+
+		<grid apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('net.herranzmartin.uploader.ListaPestanyes')"
+			model="@bind(vm.pestanyes)">
+			<columns>
+				<column label="Nombre" />
+				<column label="Rango" />
+				<column label="Num. Fila Inicial" />
+			</columns>
+			<template name="model" var="pestanya">
+				<row>
+					<label value="@bind(pestanya.getNombre())" />
+					<label value="@bind(pestanya.getRango())" />
+					<label value="@bind(pestanya.getNumFilaInicial())" />
+				</row>
+			</template>
+			<foot>
+				<footer span="5" id="footer_category"
+					class="footer_right" />
+			</foot>
+		</grid>
+
+
+	</window>
+</zk>
