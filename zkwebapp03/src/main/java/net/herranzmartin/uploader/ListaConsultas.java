@@ -1,20 +1,16 @@
 package net.herranzmartin.uploader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import net.herranzmartin.listeners.EMF;
 import net.herranzmartin.project977r.model.TblConsultaSQL;
-import net.herranzmartin.project977r.model.TblCucCif;
-import net.herranzmartin.project977r.services.ClientesService;
 import net.herranzmartin.project977r.services.ConsultasService;
 
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.http.SimpleWebApp;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;

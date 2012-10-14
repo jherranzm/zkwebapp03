@@ -1,52 +1,74 @@
 <?page title="Gestión Pestañas" contentType="text/html;charset=UTF-8"?>
+
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <zk>
-	<window title="Gestión Pestañas" border="normal">
+	<window apply="net.herranzmartin.uploader.ListaPestanyes"
+		title="Gestión Pestañas" border="normal">
 
 		<include src="menu.zul" />
 
 		<separator />
 
-		<hbox>Gestión de Pestañas</hbox>
-
 		<div id="formAltaPestanya" visible="false">
-			<hbox>
-				<label id="lblNombre">Nombre</label>
-				<textbox id="nombre" width="250px" tabindex="1" />
-			</hbox>
+			<grid>
+				<rows>
+					<row>
+						<label id="lblNombre">Nombre</label>
+						<textbox id="pestanya_nombre" width="250px"
+							tabindex="1" />
+						<textbox id="pestanya_id" visible="false" />
+					</row>
+					<row>
+						<label id="lblRango">Rango</label>
+						<textbox id="pestanya_rango" width="550px"
+							tabindex="2" />
+					</row>
+					<row>
+						<label id="lblNumFilaInicial">
+							Num. Fila Inicial
+						</label>
+						<textbox id="pestanya_numFilaInicial"
+							width="30px" tabindex="3" />
+					</row>
+					<row>
+						<label id="lblPestanyaId">Pestaña Id.</label>
+						<listbox id="pestanya_consulta" width="300px" tabindex="4" rows="1" />
+					</row>
+					<row>
+						<button id="btnVolver" label="Volver" onClick=""
+							tabindex="5" />
+						<button id="btnPestanyaGuardarCambios"
+							label="Guardar cambios" onClick="" tabindex="6" />
+					</row>
+				</rows>
+			</grid>
+		</div>
 
+		<separator />
+
+		<div id="formSearch" visible="false">
 			<hbox>
-				<label id="lblRango">Rango</label>
-				<textbox id="rango" width="550px" tabindex="2" />
-			</hbox>
-			<hbox>
-				<label id="lblNumFilaInicial">Num. Fila Inicial</label>
-				<textbox id="numFilaInicial" width="30px" tabindex="3" />
-			</hbox>
-			<hbox>
-				<button id="btnGuardar" label="btnGuardar" onClick="" />
+				<textbox id="txtSearch" width="200px"></textbox>
+				<button id="btnSearch" label="Buscar" />
 			</hbox>
 		</div>
 
-		<grid apply="org.zkoss.bind.BindComposer"
-			viewModel="@id('vm') @init('net.herranzmartin.uploader.ListaPestanyes')"
-			model="@bind(vm.pestanyes)">
-			<columns>
-				<column label="Nombre" />
-				<column label="Rango" />
-				<column label="Num. Fila Inicial" />
-			</columns>
-			<template name="model" var="pestanya">
-				<row>
-					<label value="@bind(pestanya.getNombre())" />
-					<label value="@bind(pestanya.getRango())" />
-					<label value="@bind(pestanya.getNumFilaInicial())" />
-				</row>
-			</template>
-			<foot>
-				<footer span="5" id="footer_category"
-					class="footer_right" />
-			</foot>
-		</grid>
+		<listbox id="listaPestanyes"
+			emptyMessage="No se han encontrado registros" style="margin-top:20px"
+			visible="false">
+			<listhead>
+				<listheader label="Nombre" width="250px" />
+				<listheader label="Rango" width="250px" />
+				<listheader label="Num.Fila Inicial" width="50px" />
+				<listheader label="Id.Consulta" width="50px" />
+			</listhead>
+			<listitem self="@{each=pestanya}">
+				<listcell label="@{pestanya.nombre}" />
+				<listcell label="@{pestanya.rango}" />
+				<listcell label="@{pestanya.numFilaInicial}" />
+				<listcell label="@{pestanya.tblConsultasSql.id}" />
+			</listitem>
+		</listbox>
 
 
 	</window>
