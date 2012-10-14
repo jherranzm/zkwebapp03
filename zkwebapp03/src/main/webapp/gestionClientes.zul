@@ -9,7 +9,7 @@
 
 		<separator />
 
-		<div id="formAltaCliente"   visible="false">
+		<div id="formAltaCliente" visible="false">
 			<grid>
 				<rows>
 					<row>
@@ -46,13 +46,22 @@
 
 		<separator />
 
+		<div id="formSearch" visible="false">
+			<hbox>
+				<textbox id="txtSearch" width="200px"></textbox>
+				<button id="btnSearch" label="Buscar" />
+			</hbox>
+		</div>
 
-		<listbox id="listaClientes" model="@{clientes}"
-			selectedItem="@{selectedCliente}"   visible="true">
+		<listbox id="listaClientes" 
+			selectedItem="@{selectedCliente}"   
+			emptyMessage="No se han encontrado registros"
+			 style="margin-top:20px"
+			visible="false">
 			<listhead>
-				<listheader label="CIF" width="150px" sort="auto" />
-				<listheader label="CUC" width="150px" sort="auto" />
-				<listheader label="Nombre" width="500px" sort="auto" />
+				<listheader label="CIF" width="150px" />
+				<listheader label="CUC" width="150px" />
+				<listheader label="Nombre" width="500px" />
 			</listhead>
 			<listitem self="@{each=cliente}">
 				<listcell label="@{cliente.cif}" />

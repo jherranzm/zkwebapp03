@@ -13,8 +13,13 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Textbox;
 
 public class ListaClientes extends GenericForwardComposer {
@@ -23,6 +28,8 @@ public class ListaClientes extends GenericForwardComposer {
 	private EntityManager em;
 	private TblCucCif selectedCliente;
 
+	@Wire
+	private Div formAltaCliente;
 	@Wire
 	private Textbox cliente_id;
 	@Wire
@@ -34,10 +41,20 @@ public class ListaClientes extends GenericForwardComposer {
 	@Wire
 	private Textbox cliente_nombre;
 	@Wire
-	private Div formAltaCliente;
+	private Button btnVolver;
+	@Wire
+	private Button btnClienteGuardarCambios;
+
+	@Wire
+	private Div formSearch;
+	@Wire
+	private Textbox txtSearch;
+	@Wire
+	private Button btnSearch;
+
 	@Wire
 	private Listbox listaClientes;
-
+	
 
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
@@ -45,7 +62,21 @@ public class ListaClientes extends GenericForwardComposer {
 		List<TblCucCif> lista = getAllClientes();
 		System.out.println("Tenemos la lista de clientes y hay " + lista.size()
 				+ " registros!");
-		self.setAttribute("clientes", lista);
+		listaClientes.setItemRenderer(new ListitemRenderer<TblCucCif>() {
+			@Override
+			public void render(Listitem item, TblCucCif data, int index)
+					throws Exception {
+				new Listcell(data.getCif()).setParent(item);
+				new Listcell(data.getCuc()).setParent(item);
+				new Listcell(data.getNombreCliente()).setParent(item);
+				item.setValue(data);
+			}
+		});
+		listaClientes.setModel(new ListModelList<TblCucCif>(lista));
+		
+		listaClientes.setVisible(true);
+		formSearch.setVisible(true);
+		formAltaCliente.setVisible(false);
 	}
 
 	/**
@@ -72,8 +103,10 @@ public class ListaClientes extends GenericForwardComposer {
 
 	public void onSelect$listaClientes(Event event) {
 		System.out.println(listaClientes.getSelectedIndex());
+		
 		listaClientes.setVisible(false);
 		formAltaCliente.setVisible(true);
+		formSearch.setVisible(false);
 	}
 
 	public void onClick$btnClienteGuardarCambios(Event e) {
@@ -89,11 +122,33 @@ public class ListaClientes extends GenericForwardComposer {
 		ClientesService cs = new ClientesService(em);
 		cs.save(cliente);
 		Messagebox.show("Guardadas las modificaciones!");
+		
+		listaClientes.setVisible(true);
+		formSearch.setVisible(true);
+		formAltaCliente.setVisible(false);
+
 	}
 
 	public void onClick$btnVolver(Event e) {
 		formAltaCliente.setVisible(false);
+		formSearch.setVisible(true);
 		listaClientes.setVisible(true);
+	}
+
+	public void onClick$btnSearch(Event e) {
+		formAltaCliente.setVisible(false);
+		formSearch.setVisible(true);
+		listaClientes.setVisible(true);
+		
+		String texto = txtSearch.getValue();
+
+		em = EMF.createEntityManager();
+		ClientesService cs = new ClientesService(em);
+		
+		List<TblCucCif> lista = cs.findByName(texto);
+		System.out.println("Tenemos la lista de clientes y hay " + lista.size()
+				+ " registros!");
+		listaClientes.setModel(new ListModelList<TblCucCif>(lista));
 	}
 
 }

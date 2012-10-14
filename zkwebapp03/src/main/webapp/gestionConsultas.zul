@@ -12,10 +12,8 @@
 		<div id="formAltaConsultaSQL" visible="false">
 			<hbox>
 				<label id="lbl_consulta_nombre">Nombre</label>
-				<textbox id="consulta_nombre" width="550px" tabindex="1" 
-				 value="@{selectedConsulta.nombre}" />
-				<textbox id="consulta_id" visible="false"
-					value="@{selectedConsulta.id} " />
+				<textbox id="consulta_nombre" width="550px" tabindex="1" />
+				<textbox id="consulta_id" visible="false" />
 			</hbox>
 
 			<hbox>
@@ -24,7 +22,6 @@
 					<textbox 
 						id="consulta_definicion" 
 						rows="10" width="550px"
-						value="@{selectedConsulta.definicion}"  
 						tabindex="2" 
 					/>
 				</vlayout>
@@ -36,13 +33,23 @@
 			</hbox>
 		</div>
 
+		<separator />
+
+		<div id="formSearch" visible="false">
+			<hbox>
+				<textbox id="txtSearch" width="200px"></textbox>
+				<button id="btnSearch" label="Buscar" />
+			</hbox>
+		</div>
+
 		<listbox 
 			id="listaConsultas" 
-			selectedItem="@{selectedConsulta}"
-			model="@{consultas}"  visible="true">
+			emptyMessage="No se han encontrado registros"
+			style="margin-top:20px"
+			visible="true">
 			<listhead>
-				<listheader label="Nombre"   width="250px" sort="auto" />
-				<listheader label="Consulta" width="auto" sort="auto" />
+				<listheader label="Nombre"   width="250px" />
+				<listheader label="Consulta" width="auto" />
 			</listhead>
 			<listitem self="@{each=consulta}">
 				<listcell label="@{consulta.nombre}" />
