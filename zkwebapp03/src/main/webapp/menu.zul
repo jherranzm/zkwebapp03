@@ -3,6 +3,7 @@
 			<menu label="Archivo">
 				<menupopup>
 					<menuitem id="gestionFicheros" label="Gestión Ficheros 977R" href="index.zul"/>
+					<menuitem id="gestionClientes" label="Gestión Clientes" href="gestionClientes.zul"/>
 					<menuitem id="gestionConsultas" label="Gestión Consultas" href="gestionConsultas.zul"/>
 					<menuitem id="gestionPestanyes" label="Gestión Pestanyes" href="gestionPestanyes.zul"/>
 				</menupopup>

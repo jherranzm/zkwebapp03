@@ -1,46 +1,54 @@
 <?page title="Gestión Consultas" contentType="text/html;charset=UTF-8"?>
+
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <zk>
-	<window title="Gestión Consultas" border="normal">
+	<window apply="net.herranzmartin.uploader.ListaConsultas"
+		title="Gestión Consultas" border="normal">
 
 		<include src="menu.zul" />
 
 		<separator />
 
-		<hbox>Gestión de Consultas</hbox>
-
 		<div id="formAltaConsultaSQL" visible="false">
 			<hbox>
-				<label id="lblNombre">Nombre</label>
-				<textbox id="nombre" width="250px" tabindex="1" />
+				<label id="lbl_consulta_nombre">Nombre</label>
+				<textbox id="consulta_nombre" width="550px" tabindex="1" 
+				 value="@{selectedConsulta.nombre}" />
+				<textbox id="consulta_id" visible="false"
+					value="@{selectedConsulta.id} " />
 			</hbox>
 
 			<hbox>
-				<label id="lblConsulta">ConsultaSQL</label>
-				<textbox id="consultasql" width="550px" tabindex="2" />
+				<vlayout>
+					<label id="lbl_consulta_definicion">Definición</label>
+					<textbox 
+						id="consulta_definicion" 
+						rows="10" width="550px"
+						value="@{selectedConsulta.definicion}"  
+						tabindex="2" 
+					/>
+				</vlayout>
 			</hbox>
+			
 			<hbox>
-				<button label="click" onClick="" />
+				<button id="btnVolver" label="Volver" onClick=""  tabindex="3" />
+				<button id="btnConsultaGuardarCambios" label="Guardar cambios" onClick=""  tabindex="4" />
 			</hbox>
 		</div>
 
-		<grid apply="org.zkoss.bind.BindComposer"
-			viewModel="@id('vm') @init('net.herranzmartin.uploader.ListaConsultas')"
-			model="@bind(vm.consultas)">
-			<columns>
-				<column label="Nombre" />
-				<column label="Consulta" />
-			</columns>
-			<template name="model" var="consulta">
-				<row>
-					<label value="@bind(consulta.getNombre())" />
-					<label value="@bind(consulta.getDefinicion())" />
-				</row>
-			</template>
-			<foot>
-				<footer span="5" id="footer_category"
-					class="footer_right" />
-			</foot>
-		</grid>
+		<listbox 
+			id="listaConsultas" 
+			selectedItem="@{selectedConsulta}"
+			model="@{consultas}"  visible="true">
+			<listhead>
+				<listheader label="Nombre"   width="250px" sort="auto" />
+				<listheader label="Consulta" width="auto" sort="auto" />
+			</listhead>
+			<listitem self="@{each=consulta}">
+				<listcell label="@{consulta.nombre}" />
+				<listcell label="@{consulta.definicion}" />
+			</listitem>
+		</listbox>
 
 
 	</window>

@@ -1,0 +1,66 @@
+<?page title="Gestión Clientes" contentType="text/html;charset=UTF-8"?>
+
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk>
+	<window apply="net.herranzmartin.uploader.ListaClientes"
+		title="Gestión Clientes" border="normal">
+
+		<include src="menu.zul" />
+
+		<separator />
+
+		<div id="formAltaCliente"   visible="false">
+			<grid>
+				<rows>
+					<row>
+						<label id="lbl_cliente_tipodoc">Tipo Doc</label>
+						<textbox id="cliente_tipodoc" width="100px"
+							tabindex="1" value="@{selectedCliente.tipoDoc} " />
+						<textbox id="cliente_id" visible="false"
+							value="@{selectedCliente.id} " />
+					</row>
+					<row>
+						<label id="lbl_cliente_cif">CIF</label>
+						<textbox id="cliente_cif" width="100px"
+							tabindex="2" value="@{selectedCliente.cif} " />
+					</row>
+					<row>
+						<label id="lbl_cliente_cuc">CUC</label>
+						<textbox id="cliente_cuc" width="100px"
+							tabindex="3" value="@{selectedCliente.cuc} " />
+					</row>
+					<row>
+						<label id="lbl_cliente_nombre">Nombre</label>
+						<textbox id="cliente_nombre" width="550px"
+							tabindex="4" value="@{selectedCliente.nombreCliente}" />
+					</row>
+					<row>
+						<button id="btnVolver" label="Volver" onClick=""
+							tabindex="5" />
+						<button id="btnClienteGuardarCambios"
+							label="Guardar cambios" onClick="" tabindex="6" />
+					</row>
+				</rows>
+			</grid>
+		</div>
+
+		<separator />
+
+
+		<listbox id="listaClientes" model="@{clientes}"
+			selectedItem="@{selectedCliente}"   visible="true">
+			<listhead>
+				<listheader label="CIF" width="150px" sort="auto" />
+				<listheader label="CUC" width="150px" sort="auto" />
+				<listheader label="Nombre" width="500px" sort="auto" />
+			</listhead>
+			<listitem self="@{each=cliente}">
+				<listcell label="@{cliente.cif}" />
+				<listcell label="@{cliente.cuc}"  />
+				<listcell label="@{cliente.nombreCliente}" />
+			</listitem>
+		</listbox>
+
+
+	</window>
+</zk>

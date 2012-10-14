@@ -13,7 +13,7 @@ public class ListaPestanyes {
 	private EntityManager em = EMF.createEntityManager();
 
 	
-	public List<TblPestanya> pestanyes = getAllFicheros();
+	public List<TblPestanya> pestanyes = getAllPestanyes();
 
 	/**
 	 * @return the consultas
@@ -29,7 +29,7 @@ public class ListaPestanyes {
 		this.pestanyes = lasPestanyes;
 	}
 
-	public List<TblPestanya> getAllFicheros() {
+	public List<TblPestanya> getAllPestanyes() {
 		PestanyesService fs = new PestanyesService(em);
 		List<TblPestanya> list = fs.getAllItems();
 		return list;
