@@ -16,6 +16,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -35,7 +37,7 @@ public class ListaPestanyes extends GenericForwardComposer {
 	@Wire
 	private Listbox listaPestanyes;
 	@Wire
-	private Listbox pestanya_consulta;
+	private Combobox pestanya_consulta;
 
 	@Wire
 	private Div formAltaPestanya;
@@ -61,7 +63,8 @@ public class ListaPestanyes extends GenericForwardComposer {
 				new Listcell(data.getNombre()).setParent(item);
 				new Listcell(data.getRango()).setParent(item);
 				new Listcell((new Integer(data.getNumFilaInicial())).toString()).setParent(item);
-				new Listcell((new Integer(data.getTblConsultasSql().getId())).toString()).setParent(item);
+				//new Listcell((new Integer(data.getTblConsultasSql().getId())).toString()).setParent(item);
+				new Listcell(data.getTblConsultasSql().getNombre()).setParent(item);
 				item.setValue(data);
 			}
 		});
@@ -119,17 +122,20 @@ public class ListaPestanyes extends GenericForwardComposer {
 		ConsultasService fs = new ConsultasService(em);
 		List<TblConsultaSQL> listConsultas = fs.getAllItems();
 		System.out.println("onSelect$listaPestanyes:listConsultas:" + listConsultas.size());
-		modeloCons = new ListModelList<TblConsultaSQL>(listConsultas);
 		
-		pestanya_consulta.setItemRenderer(new ListitemRenderer<TblConsultaSQL>() {
-			@Override
-			public void render(Listitem item, TblConsultaSQL data, int index)
-					throws Exception {
-				new Listcell(data.getNombre()).setParent(item);
-				item.setValue(data);
+//		modeloCons = new ListModelList<TblConsultaSQL>(listConsultas);
+//		pestanya_consulta.setModel(modeloCons);
+		
+		for(TblConsultaSQL consulta : listConsultas){
+			Comboitem ci = new Comboitem();
+			ci.setValue(consulta);
+			ci.setLabel(consulta.getNombre());
+			System.out.println(consulta.getId() + ":" + consulta.getNombre());
+			pestanya_consulta.appendChild(ci);
+			if(pestanya.getTblConsultasSql().getId() == consulta.getId()){
+				pestanya_consulta.setSelectedItem(ci);
 			}
-		});
-		pestanya_consulta.setModel(modeloCons);
+		}
 		
 		listaPestanyes.setVisible(false);
 		formAltaPestanya.setVisible(true);
@@ -158,17 +164,30 @@ public class ListaPestanyes extends GenericForwardComposer {
 	
 	
 	public void onClick$btnPestanyaGuardarCambios(Event e){
-		TblPestanya pestanya = new TblPestanya();
+		System.out.println(pestanya_consulta.getSelectedIndex());
+		System.out.println(pestanya_consulta.getValue().toString());
+		
+		Comboitem ci = pestanya_consulta.getSelectedItem();
+		if (ci != null){
+			TblConsultaSQL consulta = (TblConsultaSQL) ci.getValue();
+			System.out.println(consulta.toString());
+			TblPestanya pestanya = new TblPestanya();
 			pestanya.setId(new Integer(pestanya_id.getValue().trim()));
 			pestanya.setNombre(pestanya_nombre.getValue().trim());
 			pestanya.setRango(pestanya_rango.getValue().trim());
-			//pestanya.setTblConsultasSql(tblConsultasSql)(pestanya_rango.getValue().trim());
+			pestanya.setTblConsultasSql(consulta);
 			System.out.println(pestanya.toString());
 			
-		em = EMF.createEntityManager();
-		PestanyesService cs = new PestanyesService(em);
-			cs.save(pestanya);
-		Messagebox.show("Guardadas las modificaciones!", "Gestión de Pestañas", Messagebox.OK, Messagebox.EXCLAMATION);
+			em = EMF.createEntityManager();
+			PestanyesService cs = new PestanyesService(em);
+				cs.save(pestanya);
+			Messagebox.show("Guardadas las modificaciones!", "Gestión de Pestañas", Messagebox.OK, Messagebox.EXCLAMATION);
+		}else{
+			Messagebox.show("Error: no se ha informado de la consulta o ésta NO es válida!", 
+					"Gestión de Pestañas", 
+					Messagebox.CANCEL, Messagebox.EXCLAMATION);
+		}
+		
 		
 		refreshList();
 		

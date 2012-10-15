@@ -32,7 +32,7 @@
 					</row>
 					<row>
 						<label id="lblPestanyaId">Pestaña Id.</label>
-						<listbox id="pestanya_consulta" width="300px" tabindex="4" rows="1" />
+						<combobox id="pestanya_consulta" width="300px" tabindex="4" rows="1" />
 					</row>
 					<row>
 						<button id="btnVolver" label="Volver" onClick=""
@@ -60,15 +60,17 @@
 				<listheader label="Nombre" width="250px" />
 				<listheader label="Rango" width="250px" />
 				<listheader label="Num.Fila Inicial" width="50px" />
-				<listheader label="Id.Consulta" width="50px" />
+				<listheader label="Consulta" width="250px" />
 			</listhead>
+<!-- 			
 			<listitem self="@{each=pestanya}">
 				<listcell label="@{pestanya.nombre}" />
 				<listcell label="@{pestanya.rango}" />
 				<listcell label="@{pestanya.numFilaInicial}" />
 				<listcell label="@{pestanya.tblConsultasSql.id}" />
 			</listitem>
-		</listbox>
+ -->
+ 		</listbox>
 
 
 	</window>
