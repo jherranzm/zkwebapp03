@@ -9,6 +9,12 @@
 
 		<separator />
 
+		<div id="operaciones">
+			<hbox>
+				<button id="btnConsultaAlta" label="Alta Consulta" />
+			</hbox>
+		</div>
+
 		<div id="formAltaConsultaSQL" visible="false">
 			<hbox>
 				<label id="lbl_consulta_nombre">Nombre</label>
@@ -30,6 +36,7 @@
 			<hbox>
 				<button id="btnVolver" label="Volver" onClick=""  tabindex="3" />
 				<button id="btnConsultaGuardarCambios" label="Guardar cambios" onClick=""  tabindex="4" />
+				<button id="btnConsultaGuardarNueva" label="Guardar Consulta" onClick=""  tabindex="4" />
 			</hbox>
 		</div>
 

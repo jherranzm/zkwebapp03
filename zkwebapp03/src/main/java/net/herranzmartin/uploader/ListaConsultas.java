@@ -11,6 +11,7 @@ import net.herranzmartin.project977r.services.ConsultasService;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -47,7 +48,7 @@ public class ListaConsultas extends GenericForwardComposer {
 	@Wire
 	private Textbox txtSearch;
 	@Wire
-	private Button btnSearch;
+	private Button btnSearch, btnConsultaGuardarCambios, btnConsultaGuardarNueva;
 	
 
 	
@@ -103,9 +104,6 @@ public class ListaConsultas extends GenericForwardComposer {
 	public void onSelect$listaConsultas(Event event){
 		System.out.println(listaConsultas.getSelectedIndex());
 		
-		//TblConsultaSQL consulta = (TblConsultaSQL) listaConsultas.getSelectedItem().;
-		//consulta_id.setValue(new String())
-		
 		TblConsultaSQL consulta = (TblConsultaSQL) modelo.get(listaConsultas.getSelectedIndex());
 		
 		consulta_id.setValue((new Integer(consulta.getId())).toString());
@@ -137,6 +135,32 @@ public class ListaConsultas extends GenericForwardComposer {
 		formSearch.setVisible(true);
 	}
 
+	public void onClick$btnConsultaGuardarNueva(Event e){
+		TblConsultaSQL consulta = new TblConsultaSQL();
+			//consulta.setId(new Integer(consulta_id.getValue().trim()));
+			consulta.setNombre(consulta_nombre.getValue().trim());
+			consulta.setDefinicion(consulta_definicion.getValue().trim());
+			System.out.println(consulta.toString());
+			
+		em = EMF.createEntityManager();
+		ConsultasService cs = new ConsultasService(em);
+			cs.saveNew(consulta);
+		Messagebox.show("Nueva consulta guardada!");
+		
+		refreshList();
+		
+		formAltaConsultaSQL.setVisible(false);
+		listaConsultas.setVisible(true);
+		formSearch.setVisible(true);
+	}
+	
+	public void onClick$btnConsultaAlta(Event e){
+		btnConsultaGuardarCambios.setVisible(false);
+		formAltaConsultaSQL.setVisible(true);
+		listaConsultas.setVisible(false);
+		formSearch.setVisible(false);
+	}
+	
 	public void onClick$btnVolver(Event e){
 		formAltaConsultaSQL.setVisible(false);
 		listaConsultas.setVisible(true);
